@@ -15,7 +15,12 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from helper import check_result, get_result_color, create_primary_snps, create_secondary_snps
+from constants.helper import (
+    check_result,
+    get_result_color,
+    create_primary_snps,
+    create_secondary_snps,
+)
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from constants.constants import primary_genes, secondary_genes, gene_references
 from io import BytesIO
