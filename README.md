@@ -22,6 +22,20 @@ python main.py
 
 The application listens on port `8000` by default.
 
+## Testing with `curl`
+
+After starting the server you can verify an endpoint with a simple `curl` request.
+For example, to generate a variant report run:
+
+```bash
+curl -X POST http://localhost:8000/report/variant \
+     -H "Content-Type: application/json" \
+     -d '{"genotypes": [{"rsid": "rs123", "genotype": "AA"}]}' \
+     --output variant_report.pdf
+```
+
+This saves the generated PDF to `variant_report.pdf`.
+
 ## Endpoints
 
 ### `POST /report/variant`
