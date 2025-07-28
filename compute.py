@@ -56,7 +56,24 @@ figure_numbers = {
 }
 
 
-def generate_pdf(content, file_name, folder_name, font_size=11):
+def generate_pdf(content, file_name, folder_name, font_size=11, output_path=None):
+    """Generate the standard PDF report.
+
+    Parameters
+    ----------
+    content : pandas.DataFrame
+        DataFrame containing the SNP data that should appear in the report.
+    file_name : str
+        Title for the PDF document.
+    folder_name : str
+        Optional subtitle that appears under the title.
+    font_size : int, default 11
+        Base font size used for tables.
+    output_path : str or None, optional
+        When provided the resulting PDF is also written to this path and the
+        function returns that path instead of the raw bytes.
+    """
+
     pdf_output = BytesIO()
 
     class bookmark_flowable(Flowable):
@@ -383,7 +400,12 @@ def generate_pdf(content, file_name, folder_name, font_size=11):
     )
     pdf_data = pdf_output.getvalue()
     pdf_output.close()
-    
+
+    if output_path:
+        with open(output_path, "wb") as fh:
+            fh.write(pdf_data)
+        return output_path
+
     return pdf_data
 
 
@@ -556,7 +578,13 @@ def create_covid_dataframe(df):
 
 
 
-def generate_covid_pdf(content, file_name, folder_name, font_size=11):
+def generate_covid_pdf(content, file_name, folder_name, font_size=11, output_path=None):
+    """Generate the COVID report PDF.
+
+    Parameters mirror :func:`generate_pdf` with the additional ability to write
+    the generated PDF to ``output_path`` when supplied.
+    """
+
     pdf_output = BytesIO()
     
     class bookmark_flowable(Flowable):
@@ -914,5 +942,10 @@ def generate_covid_pdf(content, file_name, folder_name, font_size=11):
     doc.build(story, canvasmaker=HeaderFooterCanvas)
     pdf_data = pdf_output.getvalue()
     pdf_output.close()
-    
+
+    if output_path:
+        with open(output_path, "wb") as fh:
+            fh.write(pdf_data)
+        return output_path
+
     return pdf_data
